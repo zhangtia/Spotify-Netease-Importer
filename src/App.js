@@ -150,7 +150,7 @@ class App extends Component {
       NEsongs: []
     });
     $.ajax({
-      url: "http://musicapi.leanapp.cn/playlist/detail",
+      url: "https://musicapi.leanapp.cn/playlist/detail",
       type: "GET",
       data: {
         id: this.state.neteasesearch,
@@ -165,7 +165,7 @@ class App extends Component {
         }
         data.playlist.trackIds.forEach(element => {
           $.ajax({
-            url: "http://musicapi.leanapp.cn/song/detail",
+            url: "https://musicapi.leanapp.cn/song/detail",
             type: "GET",
             data: {
               ids: element.id,
