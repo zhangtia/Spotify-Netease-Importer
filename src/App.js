@@ -87,29 +87,35 @@ class App extends Component {
       return;
     }
     let song_list = [...this.state.NEsongs];
+    let param_list = [];
     let params = "";
-    song_list.forEach((element) => {
+    song_list.forEach((element, index) => {
+      if (index % 50 === 0) {
+        param_list.push(params.substring(0, params.length - 1));
+        params = "";
+      }
       if (element[4]) {
         params = params + element[5] + ",";
         element[4] = !element[4];
       }
     })
-    params = params.substring(0, params.length - 1);
-    $.ajax({
-      url: "	https://api.spotify.com/v1/playlists/" + this.state.sel_playlist + "/tracks?" + $.param({ uris: params }),
-      type: "POST",
-      //dataType: 'json',
-      //data: JSON.stringify({ "uris": "spotify:track:3VlbOrM6nYPprVvzBZllE5,spotify:track:3dmfvWITuVs9OumXtwpAPJ" }),
-      beforeSend: xhr => {
-        xhr.setRequestHeader("Authorization", "Bearer " + this.state.token);
-      },
-      success: data => {
-        alert("Import complete!");
-        this.setState({
-          NEsongs: song_list
-        });
-      }
-    });
+    param_list.push(params.substring(0, params.length - 1));
+    param_list.forEach((query) => {
+      $.ajax({
+        url: "	https://api.spotify.com/v1/playlists/" + this.state.sel_playlist + "/tracks?" + $.param({ uris: query }),
+        type: "POST",
+        //dataType: 'json',
+        //data: JSON.stringify({ "uris": "spotify:track:3VlbOrM6nYPprVvzBZllE5,spotify:track:3dmfvWITuVs9OumXtwpAPJ" }),
+        beforeSend: xhr => {
+          xhr.setRequestHeader("Authorization", "Bearer " + this.state.token);
+        },
+        success: data => {
+          this.setState({
+            NEsongs: song_list
+          });
+        }
+      });
+    })
   }
 
   searchSong(song_name, artist_name) {
