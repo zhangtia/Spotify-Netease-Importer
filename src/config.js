@@ -1,7 +1,7 @@
 export const authEndpoint = "https://accounts.spotify.com/authorize";
 
 // Replace with your app's client ID, redirect URI and desired scopes
-export const clientId = "60707a33a22f4caaa987faa27cd9251b";
+export const clientId = "hi";
 export const redirectUri = "https://zhangtia.github.io/Spotify-Netease-Importer/";
 //export const redirectUri = "http://localhost:3000/";
 export const scopes = [
