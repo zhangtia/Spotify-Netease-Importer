@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7d8ecc8dd5cc1f5e0078f988be0aa6a2",
+    "revision": "992181ea374e74fe96a2fc0cc7cb9557",
     "url": "/Spotify-Netease-Importer/index.html"
   },
   {
-    "revision": "4b94e2ee5ded56416e7f",
-    "url": "/Spotify-Netease-Importer/static/css/main.dab061fb.chunk.css"
+    "revision": "10dcc0da424b02b97f05",
+    "url": "/Spotify-Netease-Importer/static/css/main.ff162014.chunk.css"
   },
   {
     "revision": "d0a36c318f2dcfe038e0",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Spotify-Netease-Importer/static/js/2.fbaf7bdb.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "4b94e2ee5ded56416e7f",
-    "url": "/Spotify-Netease-Importer/static/js/main.db383004.chunk.js"
+    "revision": "10dcc0da424b02b97f05",
+    "url": "/Spotify-Netease-Importer/static/js/main.ecf2684a.chunk.js"
   },
   {
     "revision": "49120787c341f031859f",
