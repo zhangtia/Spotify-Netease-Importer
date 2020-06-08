@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/Spotify-Netease-Importer/static/css/main.ff162014.chunk.css",
-    "main.js": "/Spotify-Netease-Importer/static/js/main.faf005ba.chunk.js",
-    "main.js.map": "/Spotify-Netease-Importer/static/js/main.faf005ba.chunk.js.map",
+    "main.css": "/Spotify-Netease-Importer/static/css/main.81419210.chunk.css",
+    "main.js": "/Spotify-Netease-Importer/static/js/main.8d07fee6.chunk.js",
+    "main.js.map": "/Spotify-Netease-Importer/static/js/main.8d07fee6.chunk.js.map",
     "runtime-main.js": "/Spotify-Netease-Importer/static/js/runtime-main.a692fcf5.js",
     "runtime-main.js.map": "/Spotify-Netease-Importer/static/js/runtime-main.a692fcf5.js.map",
     "static/js/2.fbaf7bdb.chunk.js": "/Spotify-Netease-Importer/static/js/2.fbaf7bdb.chunk.js",
     "static/js/2.fbaf7bdb.chunk.js.map": "/Spotify-Netease-Importer/static/js/2.fbaf7bdb.chunk.js.map",
     "index.html": "/Spotify-Netease-Importer/index.html",
-    "precache-manifest.09f8985929b32d8f738cf4e182d15f35.js": "/Spotify-Netease-Importer/precache-manifest.09f8985929b32d8f738cf4e182d15f35.js",
+    "precache-manifest.6f6640f616af18b53ca0ac66bf8a5f91.js": "/Spotify-Netease-Importer/precache-manifest.6f6640f616af18b53ca0ac66bf8a5f91.js",
     "service-worker.js": "/Spotify-Netease-Importer/service-worker.js",
-    "static/css/main.ff162014.chunk.css.map": "/Spotify-Netease-Importer/static/css/main.ff162014.chunk.css.map",
+    "static/css/main.81419210.chunk.css.map": "/Spotify-Netease-Importer/static/css/main.81419210.chunk.css.map",
     "static/js/2.fbaf7bdb.chunk.js.LICENSE.txt": "/Spotify-Netease-Importer/static/js/2.fbaf7bdb.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.a692fcf5.js",
     "static/js/2.fbaf7bdb.chunk.js",
-    "static/css/main.ff162014.chunk.css",
-    "static/js/main.faf005ba.chunk.js"
+    "static/css/main.81419210.chunk.css",
+    "static/js/main.8d07fee6.chunk.js"
   ]
 }
