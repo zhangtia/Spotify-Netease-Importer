@@ -1,22 +1,23 @@
 {
   "files": {
-    "main.css": "/Spotify-Netease-Importer/static/css/main.d30e8a3d.chunk.css",
-    "main.js": "/Spotify-Netease-Importer/static/js/main.40abb4d3.chunk.js",
-    "main.js.map": "/Spotify-Netease-Importer/static/js/main.40abb4d3.chunk.js.map",
+    "main.css": "/Spotify-Netease-Importer/static/css/main.8b82a19b.chunk.css",
+    "main.js": "/Spotify-Netease-Importer/static/js/main.3c6789f2.chunk.js",
+    "main.js.map": "/Spotify-Netease-Importer/static/js/main.3c6789f2.chunk.js.map",
     "runtime-main.js": "/Spotify-Netease-Importer/static/js/runtime-main.a692fcf5.js",
     "runtime-main.js.map": "/Spotify-Netease-Importer/static/js/runtime-main.a692fcf5.js.map",
-    "static/js/2.1e90ee87.chunk.js": "/Spotify-Netease-Importer/static/js/2.1e90ee87.chunk.js",
-    "static/js/2.1e90ee87.chunk.js.map": "/Spotify-Netease-Importer/static/js/2.1e90ee87.chunk.js.map",
+    "static/js/2.aba9316e.chunk.js": "/Spotify-Netease-Importer/static/js/2.aba9316e.chunk.js",
+    "static/js/2.aba9316e.chunk.js.map": "/Spotify-Netease-Importer/static/js/2.aba9316e.chunk.js.map",
     "index.html": "/Spotify-Netease-Importer/index.html",
-    "precache-manifest.1d31b68c14abe43fe85dbcb0f16d869f.js": "/Spotify-Netease-Importer/precache-manifest.1d31b68c14abe43fe85dbcb0f16d869f.js",
+    "precache-manifest.31b086b1b2519162f1c9a85404e9dbcf.js": "/Spotify-Netease-Importer/precache-manifest.31b086b1b2519162f1c9a85404e9dbcf.js",
     "service-worker.js": "/Spotify-Netease-Importer/service-worker.js",
-    "static/css/main.d30e8a3d.chunk.css.map": "/Spotify-Netease-Importer/static/css/main.d30e8a3d.chunk.css.map",
-    "static/js/2.1e90ee87.chunk.js.LICENSE.txt": "/Spotify-Netease-Importer/static/js/2.1e90ee87.chunk.js.LICENSE.txt"
+    "static/css/main.8b82a19b.chunk.css.map": "/Spotify-Netease-Importer/static/css/main.8b82a19b.chunk.css.map",
+    "static/js/2.aba9316e.chunk.js.LICENSE.txt": "/Spotify-Netease-Importer/static/js/2.aba9316e.chunk.js.LICENSE.txt",
+    "static/media/Tutorial.png": "/Spotify-Netease-Importer/static/media/Tutorial.31b792ab.png"
   },
   "entrypoints": [
     "static/js/runtime-main.a692fcf5.js",
-    "static/js/2.1e90ee87.chunk.js",
-    "static/css/main.d30e8a3d.chunk.css",
-    "static/js/main.40abb4d3.chunk.js"
+    "static/js/2.aba9316e.chunk.js",
+    "static/css/main.8b82a19b.chunk.css",
+    "static/js/main.3c6789f2.chunk.js"
   ]
 }
