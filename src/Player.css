@@ -1,10 +1,23 @@
+.App-playlist {
+    width: 55vw;
+    margin: auto;
+    margin-top: 5vw;
+    margin-bottom: 5vw;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.clickable:active {
+    cursor: pointer;
+}
 
 /** Now Playing **/
 
 .now-playing__name {
     font-size: 0.7em;
     margin-bottom: 0.2em;
-    overflow: scroll;
 }
 
 .now-playing__artist {
@@ -42,4 +55,71 @@
 .progress__bar {
     background-color: #eee;
     height: 4px;
+}
+
+/** Intro **/
+
+.Intro-text {
+    margin-top: 5vw;
+}
+
+.Intro-pic {
+    float: right;
+    width: 55vw;
+    margin-right: 5vw;
+    margin-top: 5vw;
+    box-shadow: 0px 0px 15px 5px rgba(30,220,151,1);
+}
+
+.Intro-list {
+    float: left;
+    margin: 0 auto;
+    width: 30vw;
+    margin-left: 5vw;
+    margin-top: 5vw;
+}
+
+/** Landing **/
+
+.Landing {
+    background-color: #282c34;
+    min-height: 80vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.Landing-header {
+    height: 20vw;
+}
+
+.Landing-title {
+    float: left;
+    width: 30vw;
+    font-size: 3.5em;
+    color: #C0C0C0;
+    margin-left: 13vw;
+    margin-top: 5vw;
+}
+
+.Landing-gif {
+    float: right;
+    width: 10vw;
+    margin-right: 10vw;
+    margin-top: 2.5vw;
+}
+
+.Landing-desc {
+    float: left;
+    width: 50vw;
+    text-align: left;
+    font-size: 1.25em;
+    margin: 5vw 37vw 8vw 13vw;
+}
+
+.Landing-login {
+    text-align: left;
+    align-items: left;
 }

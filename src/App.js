@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import * as $ from "jquery";
-import { authEndpoint, clientId, redirectUri, scopes } from "./config";
+import { page_size } from "./config";
 import hash from "./hash";
 import Playlists from "./Playlists";
 import "./App.css";
+import Intro from "./Intro";
+import Landing from "./Landing";
 
 // https://medium.com/@jonnykalambay/now-playing-using-spotifys-awesome-api-with-react-7db8173a7b13
 // https://levelup.gitconnected.com/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6
@@ -13,13 +15,19 @@ class App extends Component {
     super(props);
     this.state = {
       token: null,
-      display_name: "not logged in",
+      display_name: "Not logged in",
+      display_pic: null,
       playlists: [],
-      neteasesearch: 2842615416,
+      neteasesearch: 463126179,
       NEsongs: [],
       sel_playlist: null,
-      songs_to_import: []
+      songs_to_import: [],
+      current_page: 0,
+      step_nbr: 1,
+      recommended: [],
+      loading: false,
     };
+    this.trendingPlaylist = this.trendingPlaylist.bind(this);
     this.hi = this.hi.bind(this);
     this.getPlaylists = this.getPlaylists.bind(this);
     this.getNetease = this.getNetease.bind(this);
@@ -28,19 +36,90 @@ class App extends Component {
     this.selectPlaylist = this.selectPlaylist.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.selectAll = this.selectAll.bind(this);
+    this.prevPage = this.prevPage.bind(this);
+    this.nextPage = this.nextPage.bind(this);
+    this.testFunction = this.testFunction.bind(this);
+    this.selectRecommended = this.selectRecommended.bind(this);
+    this.getCookies = this.getCookies.bind(this);
+    this.logout = this.logout.bind(this);
   }
   componentDidMount() {
     // Set token
-    let _token = hash.access_token;
+    var _token = hash.access_token;
 
     if (_token) {
       // Set token
       this.setState({
         token: _token
       });
+
+      if (hash.expires_in) {
+        var date = new Date();
+        date.setTime(date.getTime() + (parseInt(hash.expires_in) * 100));
+        var expires = "; expires=" + date.toUTCString();
+        document.cookie = "SpotifyAuth=" + (hash.access_token || "") + expires + "; path=/";
+      }
+
       this.hi(_token);
       this.getPlaylists(_token);
+      this.trendingPlaylist();
     }
+
+    if (this.getCookies()) {
+      _token = this.getCookies();
+      this.setState({
+        token: _token
+      });
+      this.hi(_token);
+      this.getPlaylists(_token);
+      this.trendingPlaylist();
+    }
+  }
+
+  getCookies() {
+    var nameEQ = "SpotifyAuth=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  logout() {
+    console.log('called');
+    document.cookie = 'SpotifyAuth=hi; Max-Age=-99999999;';
+    this.setState({
+      token: null,
+      display_name: "Not logged in",
+      display_pic: null,
+      playlists: [],
+      neteasesearch: 463126179,
+      NEsongs: [],
+      sel_playlist: null,
+      songs_to_import: [],
+      current_page: 0,
+      step_nbr: 1,
+      recommended: [],
+      loading: false,
+    });
+  }
+
+  trendingPlaylist() {
+    $.ajax({
+      url: "https://musicapi.leanapp.cn/top/playlist",
+      type: "GET",
+      data: {
+        limit: 5,
+        cat: "欧美",
+      },
+      success: data => {
+        this.setState({
+          recommended: data.playlists
+        });
+      }
+    });
   }
 
   hi(token) {
@@ -53,7 +132,8 @@ class App extends Component {
       },
       success: data => {
         this.setState({
-          display_name: data.display_name
+          display_name: data.display_name,
+          display_pic: data.images[0].url,
         });
       }
     });
@@ -90,7 +170,7 @@ class App extends Component {
     let param_list = [];
     let params = "";
     song_list.forEach((element, index) => {
-      if (index % 50 === 0) {
+      if (index % 50 === 0 && index !== 0) {
         param_list.push(params.substring(0, params.length - 1));
         params = "";
       }
@@ -102,20 +182,19 @@ class App extends Component {
     param_list.push(params.substring(0, params.length - 1));
     param_list.forEach((query) => {
       $.ajax({
-        url: "	https://api.spotify.com/v1/playlists/" + this.state.sel_playlist + "/tracks?" + $.param({ uris: query }),
+        url: "https://api.spotify.com/v1/playlists/" + this.state.sel_playlist + "/tracks?" + $.param({ uris: query }),
         type: "POST",
-        //dataType: 'json',
-        //data: JSON.stringify({ "uris": "spotify:track:3VlbOrM6nYPprVvzBZllE5,spotify:track:3dmfvWITuVs9OumXtwpAPJ" }),
         beforeSend: xhr => {
           xhr.setRequestHeader("Authorization", "Bearer " + this.state.token);
         },
-        success: data => {
-          this.setState({
-            NEsongs: song_list
-          });
+        statusCode: {
+          500: () => {
+            param_list.push(query);
+          },
         }
       });
     })
+    this.setState({ NEsongs: song_list });
   }
 
   searchSong(song_name, artist_name) {
@@ -151,9 +230,11 @@ class App extends Component {
   }
 
   getNetease(event) {
-    event.preventDefault();
+    //event.preventDefault();
     this.setState({
-      NEsongs: []
+      NEsongs: [],
+      step_nbr: 2,
+      loading: true
     });
     $.ajax({
       url: "https://musicapi.leanapp.cn/playlist/detail",
@@ -164,7 +245,7 @@ class App extends Component {
       success: data => {
         //alert(data.playlist.trackIds[4].id);
         //alert(data.playlist.trackIds[3].id);
-        console.log(data);
+        //console.log(data);
         if (data.code !== 200) {
           alert("Error fetching playlist");
           return;
@@ -185,6 +266,7 @@ class App extends Component {
 
       }
     });
+    this.setState({ loading: false });
   }
 
   selectSong(index, e) {
@@ -216,41 +298,113 @@ class App extends Component {
 
   }
 
+  prevPage() {
+    if (this.state.current_page > 0) {
+      let prev_pg = (this.state.current_page - 1);
+      this.setState({ current_page: prev_pg });
+    }
+  }
+
+  nextPage() {
+    if ((this.state.current_page + 1) * page_size < this.state.NEsongs.length) {
+      let next_pg = (this.state.current_page + 1);
+      this.setState({ current_page: next_pg });
+    }
+  }
+
+  testFunction(nbr) {
+    this.setState({ step_nbr: nbr });
+  }
+
+  selectRecommended(playlist) {
+    this.setState({ neteasesearch: playlist, step_nbr: 2, NEsongs: [] });
+    $.ajax({
+      url: "https://musicapi.leanapp.cn/playlist/detail",
+      type: "GET",
+      data: {
+        id: playlist,
+      },
+      success: data => {
+        //alert(data.playlist.trackIds[4].id);
+        //alert(data.playlist.trackIds[3].id);
+        //console.log(data);
+        if (data.code !== 200) {
+          alert("Error fetching playlist");
+          return;
+        }
+        data.playlist.trackIds.forEach(element => {
+          $.ajax({
+            url: "https://musicapi.leanapp.cn/song/detail",
+            type: "GET",
+            data: {
+              ids: element.id,
+            },
+            success: trackdata => {
+              //alert(trackdata.songs[0].name);
+              this.searchSong(trackdata.songs[0].name, trackdata.songs[0].ar[0].name);
+            }
+          });
+        });
+
+      }
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <div id="col1">
 
-          {this.state.token && <form onSubmit={this.getNetease}>
+        <ul className="navbar">
+          <li className="home-logo">NTESPOT</li>
+          {this.state.token && this.state.display_pic && <li className="logged-in-as" onClick={this.logout}><img className="profile-img" src={this.state.display_pic} alt="profile-pic" /><span>{this.state.display_name}</span></li>}
+        </ul>
+
+        <div id="col1"
+          style={{ width: (this.state.step_nbr === 1 ? "100%" : "0%") }}>
+
+          {this.state.token && this.state.NEsongs.length > 0 && <div className="dud-btn" style={{ float: "left" }}>
+            &gt;&gt;&gt;&gt;&gt;
+              </div>}
+          {this.state.token && this.state.NEsongs.length > 0 && <button onClick={() => this.testFunction(2)} className="btn" style={{ float: "right" }}>
+            &gt;&gt;&gt;&gt;&gt;
+              </button>}
+
+          {!this.state.token && (
+            <Landing />
+          )}
+          {this.state.token && this.state.step_nbr === 1 && <form onSubmit={this.getNetease}>
             <label>
-              <input type="text" name="url" value={this.state.neteasesearch} onChange={this.handleChange} className="input-field" />
+              <input type="text" name="user" value={this.state.neteasesearch} onChange={this.handleChange} className="input-field" />
             </label>
             <input type="submit" value="get playlist" className="submit-btn" />
           </form>}
-
-          {this.state.NEsongs.length !== 0 && <button onClick={this.importSongs} className="btn">
-            IMPORT
-              </button>}
-          {this.state.NEsongs.length !== 0 && <button onClick={this.selectAll} className="btn">
-            SELECT ALL
-              </button>}
+          {this.state.token && this.state.step_nbr === 1 && <Intro action={this.selectRecommended} data={this.state.recommended} />}
 
         </div>
-        <div id="col2">
-          {!this.state.token && (
-            <header className="App-header">
-              <a
-                className="btn btn--loginApp-link"
-                href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
-                  "%20"
-                )}&response_type=token&show_dialog=true`}
-              >
-                Login to Spotify
-            </a>
-            </header>
-          )}
+        <div id="col2"
+          style={{ width: (this.state.step_nbr === 2 ? "100%" : "0%") }}>
+          <button onClick={() => this.testFunction(1)} className="btn" style={{ float: "left" }}>
+            &lt;&lt;&lt;&lt;&lt;
+              </button>
+          <button onClick={() => this.testFunction(3)} className="btn" style={{ float: "right" }}>
+            &gt;&gt;&gt;&gt;&gt;</button>
 
-          {this.state.token && <table className="Song-list">
+          {!this.state.loading && this.state.NEsongs.length !== 0 && this.state.step_nbr === 2 && <div className="control-panel">
+            <button onClick={this.selectAll} className="btn">
+              SELECT ALL
+              </button>
+            <button onClick={this.prevPage} className="page-btn left-space">
+              Previous Page
+              </button>
+            {this.state.current_page + 1}
+            <button onClick={this.nextPage} className="page-btn">
+              Next Page
+              </button>
+          </div>}
+
+          {this.state.token && this.state.step_nbr === 2 && <p className="Song-text">Select songs from playlist to import to Spotify</p>}
+
+          {this.state.token && this.state.step_nbr === 2 && <table className="Song-list">
             <thead>
               <tr>
                 <th style={{ fontSize: "0.7em" }}>Netease</th>
@@ -260,8 +414,8 @@ class App extends Component {
             </thead>
             <tbody>
 
-              {this.state.NEsongs.map((song, index) => (
-                <tr key={song[0]} onClick={this.selectSong.bind(this, index)} className="Song-row">
+              {this.state.NEsongs.slice(this.state.current_page * page_size, (this.state.current_page + 1) * page_size).map((song, index) => (
+                <tr key={song[0]} onClick={this.selectSong.bind(this, (this.state.current_page * page_size) + index)} className="Song-row">
                   <td style={{ background: (song[4] ? "#1ecd97" : ""), color: (song[4] ? "#333" : "") }}><p className="Song-name">{song[0]}</p><p className="Artist-name">{song[1]}</p></td>
                   <td style={{ background: (song[4] ? "#1ecd97" : ""), color: (song[4] ? "#333" : "") }}><p className="Song-name">{song[2]}</p><p className="Artist-name">{song[3]}</p></td>
                   <td style={{ background: (song[4] ? "#1ecd97" : ""), color: (song[4] ? "#333" : "") }}>[]</td>
@@ -269,10 +423,29 @@ class App extends Component {
               ))}
             </tbody>
           </table>}
+          {this.state.NEsongs.length !== 0 && this.state.step_nbr === 2 && <div className="page-index">
+            <button onClick={this.prevPage} className="page-btn left-space">
+              Previous Page
+              </button>
+            {this.state.current_page + 1}
+            <button onClick={this.nextPage} className="page-btn">
+              Next Page
+              </button>
+          </div>}
         </div>
-        <div id="col3" style={{ width: (this.state.token ? "25%" : "100%") }}>
-          {this.state.token && (
-            <div>
+        <div id="col3" style={{ width: (this.state.step_nbr === 3 ? "100%" : "0%") }}>
+          <button onClick={() => this.testFunction(2)} className="btn" style={{ float: "left" }}>
+            &lt;&lt;&lt;&lt;&lt;
+              </button>
+          <div className="dud-btn" style={{ float: "right" }}>
+            &lt;&lt;&lt;&lt;&lt;
+              </div>
+          {this.state.token && this.state.step_nbr === 3 && (
+            <div style={{ alignItems: "center" }}>
+              <p>Select Spotify Playlist to import songs to.</p>
+              <button onClick={this.importSongs} className="btn import-btn">
+                IMPORT
+              </button>
               <Playlists
                 playlists={this.state.playlists}
                 action={this.selectPlaylist}
@@ -280,7 +453,6 @@ class App extends Component {
               />
             </div>
           )}
-          {this.state.display_name}
         </div>
       </div>
     );
