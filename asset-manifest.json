@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/Spotify-Netease-Importer/static/css/main.99a3c9b8.chunk.css",
+    "main.css": "/Spotify-Netease-Importer/static/css/main.f73d59a8.chunk.css",
     "main.js": "/Spotify-Netease-Importer/static/js/main.8f34ccf6.chunk.js",
     "main.js.map": "/Spotify-Netease-Importer/static/js/main.8f34ccf6.chunk.js.map",
     "runtime-main.js": "/Spotify-Netease-Importer/static/js/runtime-main.a692fcf5.js",
@@ -8,9 +8,9 @@
     "static/js/2.f785d6d3.chunk.js": "/Spotify-Netease-Importer/static/js/2.f785d6d3.chunk.js",
     "static/js/2.f785d6d3.chunk.js.map": "/Spotify-Netease-Importer/static/js/2.f785d6d3.chunk.js.map",
     "index.html": "/Spotify-Netease-Importer/index.html",
-    "precache-manifest.f768eb2b7d96f8586e0e70330544a763.js": "/Spotify-Netease-Importer/precache-manifest.f768eb2b7d96f8586e0e70330544a763.js",
+    "precache-manifest.7597a0ddaf182015003260662f7731a1.js": "/Spotify-Netease-Importer/precache-manifest.7597a0ddaf182015003260662f7731a1.js",
     "service-worker.js": "/Spotify-Netease-Importer/service-worker.js",
-    "static/css/main.99a3c9b8.chunk.css.map": "/Spotify-Netease-Importer/static/css/main.99a3c9b8.chunk.css.map",
+    "static/css/main.f73d59a8.chunk.css.map": "/Spotify-Netease-Importer/static/css/main.f73d59a8.chunk.css.map",
     "static/js/2.f785d6d3.chunk.js.LICENSE.txt": "/Spotify-Netease-Importer/static/js/2.f785d6d3.chunk.js.LICENSE.txt",
     "static/media/Tutorial.png": "/Spotify-Netease-Importer/static/media/Tutorial.31b792ab.png",
     "static/media/mygif.gif": "/Spotify-Netease-Importer/static/media/mygif.6758da32.gif"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.a692fcf5.js",
     "static/js/2.f785d6d3.chunk.js",
-    "static/css/main.99a3c9b8.chunk.css",
+    "static/css/main.f73d59a8.chunk.css",
     "static/js/main.8f34ccf6.chunk.js"
   ]
 }
